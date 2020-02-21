@@ -3,18 +3,18 @@
 
 ### Outline
 + [Soal 1](#soal-1)
-    * [a](#a)
-    * [b](#b)
-    * [c](#c)
+    * [1a](#1a)
+    * [1b](#1b)
+    * [1c](#1c)
 + [Soal 2](#soal-2)
-    * [a](#a2)
-    * [b](#b2)
-    * [c](#c2)
-    * [d](#d2)
+    * [2a](#2a)
+    * [2b](#2b)
+    * [2c](#2c)
+    * [2d](#2d)
 + [Soal 3](#soal-3)
-    * [a](#a3)
-    * [b](#b3)
-    * [c](#c3)
+    * [3a](#3a)
+    * [3b](#3b)
+    * [3c](#3c)
 
 ### Soal 1
 Whits adalah seorang mahasiswa teknik informatika. Dia mendapatkan tugas praktikum
