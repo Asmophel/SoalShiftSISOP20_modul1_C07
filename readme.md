@@ -7,7 +7,14 @@
     * [b](#b)
     * [c](#c)
 + [Soal 2](#soal-2)
+    * [a](#a)
+    * [b](#b)
+    * [c](#c)
+    * [d](#d)
 + [Soal 3](#soal-3)
+    * [a](#a)
+    * [b](#b)
+    * [c](#c)
 
 ### Soal 1
 Whits adalah seorang mahasiswa teknik informatika. Dia mendapatkan tugas praktikum
