@@ -3,11 +3,9 @@
 
 ### Outline
 + [Soal 1](#soal-1)
-    +[1.a.] (#a)
-    +[1.b.] (#b)
++ [Soal 2](#soal-2)
++ [Soal 3](#soal-3)
 
 ### Soal 1
-asjkdaskjdhakjdhkajhdqwdeqw
-
-### a
-### b
+### Soal 2
+### Soal 3
