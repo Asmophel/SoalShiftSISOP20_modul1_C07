@@ -2,4 +2,6 @@
 ##### Fandi Wahyu R - 05111840000108, Brananda Denta WP - 05111840000143
 
 ### Outline
-+ [Soal 1](
++ [Soal 1](#soal-1)
+
+### Soal 1
