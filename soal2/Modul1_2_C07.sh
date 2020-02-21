@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function randomcok(){
+function random(){
 
 	array=()
 
@@ -9,8 +9,8 @@ function randomcok(){
     		array[$RANDOM]=$i
 	done
 
-	printf %s ${array[@]::28} $'\n' > /home/denta/Downloads/$a.txt
+	printf %s ${array[@]::28} > /home/denta/Downloads/$a
 }
 
 a=$1
-randomcok $a
+random $a
