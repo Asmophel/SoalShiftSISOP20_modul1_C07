@@ -35,8 +35,8 @@ lpstate2=$(awk -F "\t" -v lpreg=$lpreg '{
 lpsta1="$(echo -e "${lpstate1}" | sed -e 's/^[[:space:]]*//')"
 lpsta2="$(echo -e "${lpstate2}" | sed -e 's/^[[:space:]]*//')"
 
-echo "$that1"
-echo "$that2"
+echo "$lpsta1"
+echo "$lpsta2"
 
 
 echo "c. 10 produk dengan profit tersedikit adalah :"
