@@ -3,6 +3,9 @@
 
 ### Outline
 + [Soal 1](#soal-1)
+    * [a](#a)
+    * [b](#b)
+    * [c](#c)
 + [Soal 2](#soal-2)
 + [Soal 3](#soal-3)
 
@@ -19,9 +22,314 @@ sedikit berdasarkan hasil poin a
 
 c. Tampilkan 10 produk (product name) yang memiliki keuntungan (profit) paling
 sedikit berdasarkan 2 negara bagian (state) hasil poin b
-
 Whits memohon kepada kalian yang sudah jago mengolah data untuk mengerjakan
 laporan tersebut.
 *Gunakan Awk dan Command pendukung
-### Soal 2
-### Soal 3
+#### a
+untuk memproses data, gunakan syntax `awk` 
+
+```
+echo "a. Wilayah(Region) dengan profit paling sedikit adalah :"
+lpreg=$(awk -F "\t" '{
+    if ($13 == "South" || $13 == "Central" || $13 == "West" || $13 == "East"){
+        array[$13] += $21
+    }
+} END {
+    for(i in array) {
+        print i, array[i]
+    }
+}' Sample-Superstore.tsv | sort -g -k2 | head -n 1 | awk '{print $1}')
+echo "$lpreg"
+```
+pertama buat variabel lpreg berisi value dari data yg akan kita proses, agar nanti dapat dibandingkan dengan soal b
+
+kelompokkan isi kolom 13 yang sama yaitu South, Central, West, East lalu jumlahkan profit masing-masing dengan syntax
+```
+array[$13] += $21
+```
+lalu print semua hasilnya dengan syntax
+```
+for(i in array) {
+        print i, array[i]
+    }
+```
+
+i sebagai index Region dan array[i] sebagai nilai profit
+
+```
+Sample-Superstore.tsv
+```
+adalah file berisi data yang ingin diproses
+```
+sort -g -k2
+```
+-g berfungsi untuk mengurutkan angka, sedangkan -k2 adalah berarti yang diurutkan adalah kolom ke 2
+```
+head -n 1
+```
+Fungsinya adalah menampilkan n baris data, dalam kasus ini 1 baris
+```
+awk '{print $1}'
+```
+untuk print data pada kolom 1, yaitu Region
+
+#### b
+```
+echo "b. 2 Negara bagian(State) dengan profit paling sebikit berdasarkan poin a adalah :"
+lpstate1=$(awk -F "\t" -v lpreg=$lpreg '{
+    if ($13 == lpreg){
+        array[$11] += $21
+    }
+} END {
+    for (i in array){
+        print array[i], i
+    }
+}' Sample-Superstore.tsv |sort -g -k1 | head -n 1 | awk '{first=$1; $1=""; print $0}')
+
+lpstate2=$(awk -F "\t" -v lpreg=$lpreg '{
+    if ($13 == lpreg){
+        array[$11] += $21
+    }
+} END {
+    for (i in array){
+        print array[i],i
+    }
+}' Sample-Superstore.tsv |sort -g -k1 | head -n 2 | tail -n 1 | awk '{first=$1; $1=""; print $0}')
+
+lpsta1="$(echo -e "${lpstate1}" | sed -e 's/^[[:space:]]*//')"
+lpsta2="$(echo -e "${lpstate2}" | sed -e 's/^[[:space:]]*//')"
+
+echo "$lpsta1"
+echo "$lpsta2"
+```
+buat variabel lpstate berisi value dari data yg akan kita proses, agar nanti dapat dibandingkan dengan soal c disini dibuat 2 syntax awk, karena terdapat kesusahan memisahkan 1 awk yang besrisi 2 data
+
+```
+-v lpreg=$lpreg
+```
+-v berfungsi untuk mengambil variabel yang berada diluar syntax awk 
+
+dengan kondisi data di kolom 13(Region) sama dengan output soal a, lalu kelompokkan isi kolom 11 yang sama yaitulalu jumlahkan isinya dari kolom 21 (profit) masing-masing, dengan syntax:
+```
+    if ($13 == lpreg){
+        array[$11] += $21
+    }
+```
+lalu print semua hasilnya dengan syntax
+```
+for(i in array) {
+        print array[i],i
+    }
+```
+
+i sebagai index Region dan array[i] sebagai nilai profit
+
+```
+Sample-Superstore.tsv
+```
+adalah file berisi data yang ingin diproses
+```
+sort -g -k2
+```
+-g berfungsi untuk mengurutkan angka, sedangkan -k2 adalah berarti yang diurutkan adalah kolom ke 2
+
+pada awk pertama digunakan
+```
+head -n 1
+```
+Fungsinya adalah menampilkan n baris data, dalam kasus ini 1 baris.
+
+sedangkan pada awk kedua digunakan
+```
+head -n 2 | tail -n 1
+```
+karena data yg dibutuhkan adalah terendah kedua, maka setelah ditampilkan 2 data dari atas, dari data tersebut ditampilkan lagi 1 dari bawah
+
+```
+ awk '{first=$1; $1=""; print $0}'
+```
+karena kolom 1 berisi profit, maka hilangkan kolom 1, lalu print semua data. awk pertama dan kedua sama
+
+```
+lpsta1="$(echo -e "${lpstate1}" | sed -e 's/^[[:space:]]*//')"
+lpsta2="$(echo -e "${lpstate2}" | sed -e 's/^[[:space:]]*//')"
+```
+syntax diatas digunakan untuk menghilangkan spasi didepannya
+
+#### c
+```
+echo "c. 10 produk dengan profit tersedikit adalah :"
+lpproduct=$(awk -F "\t" -v lpstate1="$lpsta1" -v lpstate2="$lpsta2" '{
+    if ($11 == lpstate1 || $11 == lpstate2){
+        array[$17] += $21
+    }
+} END {
+    for (i in array){
+        print array[i], i
+    }
+}' Sample-Superstore.tsv |sort -g -k1| head -n 10 | awk '{first=$1; $1=""; print $0}')
+
+lppro="$(echo -e "${lpproduct}" | sed -e 's/^[[:space:]]*//')"
+
+echo "$lppro"
+```
+
+```
+-v lpstate1="$lpsta1" -v lpstate2="$lpsta2"
+```
+syntax diatas digunakan untuk mengambil variabel yg berada diluar syntax awk.
+
+Dengan kondisi data di kolom 11(state) sama dengan output soal a, lalu kelompokkan isi kolom 17 yang sama, lalu jumlahkan isinya dari kolom 21 (profit) masing-masing, dengan syntax:
+```
+    if ($11 == lpstate1 || $11 == lpstate2){
+        array[$17] += $21
+    }
+```
+lalu print semua hasilnya dengan syntax
+```
+for(i in array) {
+        print array[i],i
+    }
+```
+
+i sebagai index Region dan array[i] sebagai nilai profit
+
+```
+Sample-Superstore.tsv
+```
+adalah file berisi data yang ingin diproses
+```
+sort -g -k1
+```
+-g berfungsi untuk mengurutkan angka, sedangkan -k1 adalah berarti yang diurutkan adalah kolom ke 1 yaitu profit
+
+```
+head -n 10
+```
+Fungsinya adalah menampilkan n baris data dari atas, dalam kasus ini 10 baris.
+
+```
+ awk '{first=$1; $1=""; print $0}'
+```
+karena kolom 1 berisi profit, maka hilangkan kolom 1, lalu print semua data.
+
+```
+lppro="$(echo -e "${lpproduct}" | sed -e 's/^[[:space:]]*//')"
+
+```
+syntax diatas digunakan untuk menghilangkan spasi didepannya
+
+## Soal 2
+### Soal
+ Pada suatu siang, laptop Randolf dan Afairuzr dibajak oleh seseorang dan kehilangan
+data-data penting. Untuk mencegah kejadian yang sama terulang kembali mereka
+meminta bantuan kepada Whits karena dia adalah seorang yang punya banyak ide.
+Whits memikirkan sebuah ide namun dia meminta bantuan kalian kembali agar ide
+tersebut cepat diselesaikan. Idenya adalah kalian (a) membuat sebuah script bash yang
+dapat menghasilkan password secara acak sebanyak 28 karakter yang terdapat huruf
+besar, huruf kecil, dan angka. (b) Password acak tersebut disimpan pada file berekstensi
+.txt dengan nama berdasarkan argumen yang diinputkan dan HANYA berupa alphabet.
+(c) Kemudian supaya file .txt tersebut tidak mudah diketahui maka nama filenya akan di
+enkripsi dengan menggunakan konversi huruf (string manipulation) yang disesuaikan
+dengan jam(0-23) dibuatnya file tersebut dengan program terpisah dengan (misal:
+password.txt dibuat pada jam 01.28 maka namanya berubah menjadi qbttxpse.txt
+dengan perintah ‘bash soal2_enkripsi.sh password.txt’. Karena p adalah huruf ke 16 dan
+file dibuat pada jam 1 maka 16+1=17 dan huruf ke 17 adalah q dan begitu pula
+seterusnya. Apabila melebihi z, akan kembali ke a, contoh: huruf w dengan jam 5.28,
+maka akan menjadi huruf b.) dan (d) jangan lupa untuk membuat dekripsinya supaya
+nama file bisa kembali.
+
+### penyelesaian
+### a)
+membuat fungsi random untuk meng-random password yang dibutuhkan sepanjang 28 kombinasi huruf besar, huruf kecil, dan angka.
+```
+    function random(){
+
+    array=()
+
+    for i in {a..z} {A..Z} {0..9};
+    do
+        array[$RANDOM]=$i
+    done
+
+    printf %s ${array[@]::28} > /home/denta/Downloads/$a
+    }
+```
+### b)
+membuat variabel untuk menampung argumen yang diinputkan
+```
+a=$1
+```
+lalu memasukkan hasil random ke dalam file yang bernama sesuai dengan argumen yang di inputkan
+```
+printf %s ${array[@]::28} > /home/denta/Downloads/$a
+```
+### c)
+masih belum lancar membuat koding tentang Caesar Cipher
+
+### d)
+masih belum lancar membuat koding tentang Caesar Cipher
+
+## Soal 3
+### soal
+1 tahun telah berlalu sejak pencampakan hati Kusuma. Akankah sang pujaan hati
+kembali ke naungan Kusuma? Memang tiada maaf bagi Elen. Tapi apa daya hati yang
+sudah hancur, Kusuma masih terguncang akan sikap Elen. Melihat kesedihan Kusuma,
+kalian mencoba menghibur Kusuma dengan mengirimkan gambar kucing. [a] Maka dari
+itu, kalian mencoba membuat script untuk mendownload 28 gambar dari
+"https://loremflickr.com/320/240/cat" menggunakan command wget dan menyimpan file
+dengan nama "pdkt_kusuma_NO" (contoh: pdkt_kusuma_1, pdkt_kusuma_2,
+pdkt_kusuma_3) serta jangan lupa untuk menyimpan log messages wget kedalam
+sebuah file "wget.log". Karena kalian gak suka ribet, kalian membuat penjadwalan untuk menjalankan script download gambar tersebut. Namun, script download tersebut hanya
+berjalan[b] setiap 8 jam dimulai dari jam 6.05 setiap hari kecuali hari Sabtu Karena
+gambar yang didownload dari link tersebut bersifat random, maka ada kemungkinan
+gambar yang terdownload itu identik. Supaya gambar yang identik tidak dikira Kusuma
+sebagai spam, maka diperlukan sebuah script untuk memindahkan salah satu gambar
+identik. Setelah memilah gambar yang identik, maka dihasilkan gambar yang berbeda
+antara satu dengan yang lain. Gambar yang berbeda tersebut, akan kalian kirim ke
+Kusuma supaya hatinya kembali ceria. Setelah semua gambar telah dikirim, kalian akan
+selalu menghibur Kusuma, jadi gambar yang telah terkirim tadi akan kalian simpan
+kedalam folder /kenangan dan kalian bisa mendownload gambar baru lagi. [c] Maka dari
+itu buatlah sebuah script untuk mengidentifikasi gambar yang identik dari keseluruhan
+gambar yang terdownload tadi. Bila terindikasi sebagai gambar yang identik, maka
+sisakan 1 gambar dan pindahkan sisa file identik tersebut ke dalam folder ./duplicate
+dengan format filename "duplicate_nomor" (contoh : duplicate_200, duplicate_201).
+Setelah itu lakukan pemindahan semua gambar yang tersisa kedalam folder ./kenangan
+dengan format filename "kenangan_nomor" (contoh: kenangan_252, kenangan_253).
+Setelah tidak ada gambar di current directory, maka lakukan backup seluruh log menjadi
+ekstensi ".log.bak". Hint : Gunakan wget.log untuk membuat location.log yang isinya
+merupakan hasil dari grep "Location".
+*Gunakan Bash, Awk dan Crontab
+
+### penyelesaian
+### a)
+membuat script untuk men-download gambar dari link "https://loremflickr.com/320/240/cat" sebanyak 28 kali menggunakan command wget
+```
+#!/bin/bash
+b=28
+for ((a=1; a <= $b; a=a+1))
+do
+wget https://loremflickr.com/320/240/cat
+done
+```
+lalu setelah di download dirubah nama gambar nya menjadi "pdkt_kusuma_NO"
+```
+wget https://loremflickr.com/320/240/cat -O dkt_kusuma_NO_$a.jpg
+```
+
+lalu  menyimpan log message ke dalam wget.log
+```
+wget -a wget.log https://loremflickr.com/320/240/cat
+```
+
+### b)
+membuat crontab yang berguna untuk mendownload gambar setiap 8 jam dimulai dari jam 06.05 mulai dari hari minggu sampai jum'at
+```
+crontab -e
+```
+```
+5 6-23/8 * * 0-5 bash Modul_1_3_C07.sh
+```
+
+### c)
+masih belum bisa menemukan cara untuk menentukan apakah gambar yang di download identik atau tidak
