@@ -3,5 +3,8 @@
 
 ### Outline
 + [Soal 1](#soal-1)
+  +[1.a.] (#a)
+  +[1.b.] (#b)
 
 ### Soal 1
+### Penjelasan
