@@ -32,7 +32,7 @@ sedikit berdasarkan 2 negara bagian (state) hasil poin b
 Whits memohon kepada kalian yang sudah jago mengolah data untuk mengerjakan
 laporan tersebut.
 *Gunakan Awk dan Command pendukung
-#### a
+#### 1a
 untuk memproses data, gunakan syntax `awk` 
 
 ```
@@ -80,7 +80,7 @@ awk '{print $1}'
 ```
 untuk print data pada kolom 1, yaitu Region
 
-#### b
+#### 1b
 ```
 echo "b. 2 Negara bagian(State) dengan profit paling sebikit berdasarkan poin a adalah :"
 lpstate1=$(awk -F "\t" -v lpreg=$lpreg '{
@@ -163,7 +163,7 @@ lpsta2="$(echo -e "${lpstate2}" | sed -e 's/^[[:space:]]*//')"
 ```
 syntax diatas digunakan untuk menghilangkan spasi didepannya
 
-#### c
+#### 1c
 ```
 echo "c. 10 produk dengan profit tersedikit adalah :"
 lpproduct=$(awk -F "\t" -v lpstate1="$lpsta1" -v lpstate2="$lpsta2" '{
@@ -247,7 +247,7 @@ maka akan menjadi huruf b.) dan (d) jangan lupa untuk membuat dekripsinya supaya
 nama file bisa kembali.
 
 ### penyelesaian
-### a)
+### 2a
 membuat fungsi random untuk meng-random password yang dibutuhkan sepanjang 28 kombinasi huruf besar, huruf kecil, dan angka.
 ```
     function random(){
@@ -262,7 +262,7 @@ membuat fungsi random untuk meng-random password yang dibutuhkan sepanjang 28 ko
     printf %s ${array[@]::28} > /home/denta/Downloads/$a
     }
 ```
-### b)
+### 2b
 membuat variabel untuk menampung argumen yang diinputkan
 ```
 a=$1
@@ -271,10 +271,10 @@ lalu memasukkan hasil random ke dalam file yang bernama sesuai dengan argumen ya
 ```
 printf %s ${array[@]::28} > /home/denta/Downloads/$a
 ```
-### c)
+### 2c
 masih belum lancar membuat koding tentang Caesar Cipher
 
-### d)
+### 2d
 masih belum lancar membuat koding tentang Caesar Cipher
 
 ## Soal 3
@@ -309,7 +309,7 @@ merupakan hasil dari grep "Location".
 *Gunakan Bash, Awk dan Crontab
 
 ### penyelesaian
-### a)
+### 3a
 membuat script untuk men-download gambar dari link "https://loremflickr.com/320/240/cat" sebanyak 28 kali menggunakan command wget
 ```
 #!/bin/bash
@@ -329,7 +329,7 @@ lalu  menyimpan log message ke dalam wget.log
 wget -a wget.log https://loremflickr.com/320/240/cat
 ```
 
-### b)
+### 3b
 membuat crontab yang berguna untuk mendownload gambar setiap 8 jam dimulai dari jam 06.05 mulai dari hari minggu sampai jum'at
 ```
 crontab -e
@@ -338,5 +338,5 @@ crontab -e
 5 6-23/8 * * 0-5 bash Modul_1_3_C07.sh
 ```
 
-### c)
+### 3c
 masih belum bisa menemukan cara untuk menentukan apakah gambar yang di download identik atau tidak
