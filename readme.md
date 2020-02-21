@@ -7,4 +7,5 @@
     +[1.b.] (#b)
 
 ### Soal 1
-### Penjelasan
+### a
+### b
