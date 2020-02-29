@@ -421,4 +421,64 @@ crontab -e
 ```
 
 ### 3c
-masih belum bisa menemukan cara untuk menentukan apakah gambar yang di download identik atau tidak
+Kita diharuskan mengecek apakah foto yang didownload sudah ada atau belum, jika ada, akan masuk ke folder 
+```
+duplicate
+``` 
+jika baru akan masuk ke folder 
+```
+kenangan
+```
+Source code keseluruhan :
+
+```
+cat wget.log | grep Location: > location.log
+
+mkdir kenangan
+mkdir duplicate
+
+awk '{
+	i++
+	print i " " $2
+}' location.log | awk '
+	{
+		count[$2]++
+		if (count[$2] > 1){
+			system("mv pdkt_kusuma_"$1 " duplicate/duplicate_" $1)
+		}else{
+			system("mv pdkt_kusuma_"$1 " kenangan/kenangan_" $1)
+		}
+	}
+'
+
+cat location.log >> location.log.bak
+> location.log
+
+cat wget.log >> wget.log.bak
+> wget.log
+
+```
+Pertama, masukkan logfile di
+```
+wget.log
+```
+yang memuat kata
+```
+location :
+```
+ke dalam file
+```
+location.log
+```
+dengan 
+```
+cat wget.log | grep Location: > location.log
+```
+Lalu, buat folder 
+```
+kenangan 
+```
+dan
+```
+duplicate
+```
