@@ -458,27 +458,8 @@ cat wget.log >> wget.log.bak
 > wget.log
 
 ```
-Pertama, masukkan logfile di
-```
-wget.log
-```
-yang memuat kata
-```
-location :
-```
-ke dalam file
-```
-location.log
-```
-dengan 
+Pertama, masukkan logfile di ``` wget.log```yang memuat kata```location :```ke dalam file```location.log```dengan 
 ```
 cat wget.log | grep Location: > location.log
 ```
-Lalu, buat folder 
-```
-kenangan 
-```
-dan
-```
-duplicate
-```
+Lalu, buat folder ```kenangan ```dan```duplicate```
