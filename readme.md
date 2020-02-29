@@ -398,12 +398,12 @@ membuat script untuk men-download gambar dari link "https://loremflickr.com/320/
 b=28
 for ((a=1; a <= $b; a=a+1))
 do
-wget https://loremflickr.com/320/240/cat
+wget -a https://loremflickr.com/320/240/cat
 done
 ```
 lalu setelah di download dirubah nama gambar nya menjadi "pdkt_kusuma_NO"
 ```
-wget https://loremflickr.com/320/240/cat -O dkt_kusuma_NO_$a.jpg
+wget https://loremflickr.com/320/240/cat -O dkt_kusuma_NO_$a
 ```
 
 lalu  menyimpan log message ke dalam wget.log
