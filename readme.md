@@ -463,3 +463,38 @@ Pertama, masukkan logfile di ``` wget.log```yang memuat kata```location :```ke d
 cat wget.log | grep Location: > location.log
 ```
 Lalu, buat folder ```kenangan ```dan```duplicate```
+dengan
+```
+mkdir kenangan
+mkdir duplicate
+```
+Selanjutnya, gunakan perintah ```awk``` untuk memberi index/nomor pada setiap urutan gambar yang didownload, lalu ambil path dari ```location.log```yang nantinya akan dibuat untuk identifikasi file yang identik. lalu hasil ```awk``` tadi dijalankan perintah ```awk``` lagi.
+Buat assosiative array yang indexnya adalah path yang diambil dari ```location.log``` tadi. jika index sama, maka value ditambah 1.
+Lalu dalam setiap baris dicek jika sudah ada file dengan path yang sama akan dipindah kedalam file ```duplicate``` dengan nama ```duplicate_xx```. Jika file masih baru akan dipindah kedalam file ```kenangan``` dengan nama ```kenangan_xx```
+
+Source code :
+```
+awk '{
+	i++
+	print i " " $2
+}' location.log | awk '
+	{
+		count[$2]++
+		if (count[$2] > 1){
+			system("mv pdkt_kusuma_"$1 " duplicate/duplicate_" $1)
+		}else{
+			system("mv pdkt_kusuma_"$1 " kenangan/kenangan_" $1)
+		}
+	}
+'
+```
+
+Setelah semua selesai, backup file ```wget.log``` dan ```location.log```. Baca file dengan ```cat```  lalu masing-masing file diappend dengan format ```log.bak```. Kosongkan file agar dapat digunakan untuk pemisahan selanjutnya dengan ```> location.log```
+Source code:
+```
+cat location.log >> location.log.bak
+> location.log
+
+cat wget.log >> wget.log.bak
+> wget.log
+```
