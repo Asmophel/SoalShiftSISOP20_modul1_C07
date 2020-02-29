@@ -272,7 +272,68 @@ lalu memasukkan hasil random ke dalam file yang bernama sesuai dengan argumen ya
 printf %s ${array[@]::28} > /home/denta/Downloads/$a
 ```
 ### 2c
-masih belum lancar membuat koding tentang Caesar Cipher
+membuat variabel untuk menampung argumen yang diinputkan
+```
+name=$1
+```
+
+memisahkan nama file dengan ekstensinya
+```
+filename="${name%.*}"
+```
+
+mengambil format angka jam dan di simpan dalam variabel bernama geser
+```
+geser=$(stat -c %y $1 | grep -o -P '(?<= ).*(?=:.*:)')
+``` 
+
+```
+stat -c %y $1
+```
+digunakan untuk mengambil format time pada file
+
+```
+grep -o -P '(?<= ).*(?=:.*:)')
+```
+digunakan untuk mengambil nilai jam dalam time yang sudah di akses melalui stat tadi
+
+menyediakan deretan huruf besar dan huruf kecil
+```
+kecil="abcdefghijklmnopqrstuvwxyz"
+besar="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+```
+
+lalu nama file yang sudah di pisahkan dengan ekstensi nya dilakukan enkripsi dengan cara menggunakan command sed
+```
+caesar=$(echo "$filename" | sed "y/$low$up/${low:$geser}${low::$geser}${up:$geser}${up::$geser}/")
+```
+
+perintah
+```
+sed "y/$low$up/${low:$geser}${low::$geser}${up:$geser}${up::$geser}/"
+```
+digunakan untuk mengubah huruf per huruf menjadi ditambah dengan jam pembuatan file.
+
+caranya adalah dengan menggunakan string manipulation
+jadi 
+```
+${low:$geser}
+```
+jika misal hasil dari geser nya adalah 3. maka isi dari low akan di mulai dari setelah index ke-3, jadi defghijklmnopqrstuvwxyz
+dan 
+```
+${low::$geser}
+```
+adalah untuk menampung nilai abc nya.
+
+lalu saya membuat kondisi dimana kodingan enkripsi ini akan berjalan jika jam nya >0.
+dan mengembalikan ekstensi file .txt
+```
+if [ $geser -ne 0 ]
+then
+mv $name "${caesar}".txt
+fi
+```
 
 ### 2d
 masih belum lancar membuat koding tentang Caesar Cipher
