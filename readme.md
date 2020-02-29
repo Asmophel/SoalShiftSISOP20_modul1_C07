@@ -262,6 +262,24 @@ membuat fungsi random untuk meng-random password yang dibutuhkan sepanjang 28 ko
     printf %s ${array[@]::28} > /home/denta/Downloads/$a
     }
 ```
+
+membuat deklarasi variabel array
+```
+array=()
+```
+
+menggunakan looping for untuk mendapatkan nilai huruf besar, kecil dan angka
+```
+for i in {a..z} {A..Z} {0..9};
+    do
+        array[$RANDOM]=$i
+    done
+```
+
+lalu di print dan diberi batasan sebanyak 28 karakter
+```
+ printf %s ${array[@]::28} > /home/denta/Downloads/$a
+```
 ### 2b
 membuat variabel untuk menampung argumen yang diinputkan
 ```
