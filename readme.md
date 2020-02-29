@@ -336,7 +336,10 @@ fi
 ```
 
 ### 2d
-masih belum lancar membuat koding tentang Caesar Cipher
+dekripsi nya pakai cara yang sama dengan enkripsi tetapi variabel geser dikalikan dengan -1 sehingga index nya bergerak mundur
+```
+geser=$((geser * -1))
+```
 
 ## Soal 3
 ### soal
